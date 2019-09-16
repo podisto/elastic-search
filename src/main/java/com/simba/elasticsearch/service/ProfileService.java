@@ -22,14 +22,14 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class ProfileService {
-    private final RestHighLevelClient restHighLevelClient;
+    private final RestHighLevelClient client;
     private final ObjectMapper objectMapper;
 
     private static final String INDEX = "lead";
     private static final String TYPE = "lead";
 
-    public ProfileService(RestHighLevelClient restHighLevelClient, ObjectMapper objectMapper) {
-        this.restHighLevelClient = restHighLevelClient;
+    public ProfileService(RestHighLevelClient client, ObjectMapper objectMapper) {
+        this.client = client;
         this.objectMapper = objectMapper;
     }
 
@@ -41,7 +41,7 @@ public class ProfileService {
             Map<String, Object> documentMapper = objectMapper.convertValue(document, Map.class);
             IndexRequest indexRequest = new IndexRequest(INDEX, TYPE, document.getId())
                     .source(documentMapper);
-            indexResponse = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+            indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
             log.info("--- exception when creating profile with root cause: {} ---", e.getMessage());
         }
@@ -53,7 +53,7 @@ public class ProfileService {
         ProfileDocument profileDocument = new ProfileDocument();
         try {
             GetRequest request = new GetRequest(INDEX, TYPE, id);
-            GetResponse response = restHighLevelClient.get(request, RequestOptions.DEFAULT);
+            GetResponse response = client.get(request, RequestOptions.DEFAULT);
             Map<String, Object> resultMap = response.getSource();
             profileDocument = objectMapper.convertValue(resultMap, ProfileDocument.class);
         } catch (IOException e) {
