@@ -28,8 +28,8 @@ public class ProfileService {
     private static final String INDEX = "lead";
     private static final String TYPE = "lead";
 
-    public ProfileService(RestHighLevelClient client, ObjectMapper objectMapper) {
-        this.client = client;
+    public ProfileService(RestHighLevelClient restHighLevelClient, ObjectMapper objectMapper) {
+        this.client = restHighLevelClient;
         this.objectMapper = objectMapper;
     }
 
