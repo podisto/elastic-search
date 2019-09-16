@@ -1,0 +1,7 @@
+server:
+    port: 8090
+
+application:
+    es-host: localhost
+    es-port: 9200
+    es-connect-timeout: 5000
