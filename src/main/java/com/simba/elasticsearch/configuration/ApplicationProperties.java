@@ -15,4 +15,5 @@ public class ApplicationProperties {
     private String esHost;
     private Integer esPort;
     private Integer esConnectTimeout;
+    private String esProtocol;
 }

@@ -23,16 +23,15 @@ public class ElasticSearchConfiguration {
 
     @Bean
     RestHighLevelClient restHighLevelClient() {
-        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
-                RestClient.builder(new HttpHost(applicationProperties.getEsHost(), applicationProperties.getEsPort()))
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient
+                        .builder(new HttpHost(applicationProperties.getEsHost(), applicationProperties.getEsPort(), applicationProperties.getEsProtocol()))
                         .setRequestConfigCallback(config -> config
                                 .setConnectTimeout(applicationProperties.getEsConnectTimeout())
                                 .setConnectionRequestTimeout(applicationProperties.getEsConnectTimeout())
                                 .setSocketTimeout(applicationProperties.getEsConnectTimeout())
-                        )
-                        .setMaxRetryTimeoutMillis(applicationProperties.getEsConnectTimeout())
-        );
+                        ));
         log.info("--- connection ES success ---");
-        return restHighLevelClient;
+        return client;
     }
 }
